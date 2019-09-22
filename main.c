@@ -34,6 +34,7 @@ int main()
         do
         {
             drawBoard(board);
+            printf("Player %c input drop location:",(current_player == 1) ? board->player_1_id : board->player_2_id);
             //Validate Input
             do
             {
@@ -50,12 +51,12 @@ int main()
 
     }
 
-
-    uint8_t result = detectWin(board);
-    printf("The winner is player %d\n", result);
-
-
     drawBoard(board);
+    uint8_t result = detectWin(board);
+    printf("The winner is player %c\n", (result == 1) ? board->player_1_id : board->player_2_id);
+
+
+
     free(input);
     destroyBoard(board);
     board = NULL;

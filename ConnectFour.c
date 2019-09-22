@@ -82,9 +82,82 @@ void drawBoard(ConnectFourBoard* board)
 
 uint8_t checkWinDirection(ConnectFourBoard* board, uint8_t x, uint8_t y, uint8_t direction)
 {
-    if(checkConnectFourDirection(CF_LEFT, direction) && x < 4) return 0;
+    //Skip the check if not possible
+
+    if(board->board[x][y] == 0) return 0;
+    if((CF_LEFT & direction) != 0 && x < 3) return 0;
+    if((CF_RIGHT & direction) != 0 && x > board->width - 4) return 0;
+    if((CF_DOWN & direction) != 0 && y < 3) return 0;
+    if((CF_UP & direction) != 0 && y > board->height - 4) return 0;
 
 
+
+    uint8_t to_check = board->board[x][y];
+    if(checkConnectFourDirection(CF_RIGHT | CF_UP, direction))
+    {
+        for(uint8_t i = 0; i < 3; i++)
+        {
+            if(board->board[x + 1 + i][y + 1 + i] != to_check) return 0;
+        }
+        return to_check;
+    }
+    else if(checkConnectFourDirection(CF_LEFT | CF_UP, direction))
+    {
+        for(uint8_t i = 0; i < 3; i++)
+        {
+            if(board->board[x - 1 - i][y + 1 + i] != to_check) return 0;
+        }
+        return to_check;
+    }
+    else if(checkConnectFourDirection(CF_LEFT | CF_DOWN, direction))
+    {
+        printf("CKECK\n");
+        for(uint8_t i = 0; i < 3; i++)
+        {
+            if(board->board[x - 1 - i][y - 1 - i] != to_check) return 0;
+        }
+        return to_check;
+    }
+    else if(checkConnectFourDirection(CF_RIGHT | CF_DOWN, direction))
+    {
+        for(uint8_t i = 0; i < 3; i++)
+        {
+            if(board->board[x + 1 + i][y - 1 - i] != to_check) return 0;
+        }
+        return to_check;
+    }
+    else if(checkConnectFourDirection(CF_RIGHT, direction))
+    {
+        for(uint8_t i = 0; i < 3; i++)
+        {
+            if(board->board[x + 1 + i][y] != to_check) return 0;
+        }
+        return to_check;
+    }
+    else if(checkConnectFourDirection(CF_LEFT, direction))
+    {
+        for(uint8_t i = 0; i < 3; i++)
+        {
+            if(board->board[x - 1 - i][y] != to_check) return 0;
+        }
+        return to_check;
+    }
+    else if(checkConnectFourDirection(CF_UP, direction))
+    {
+        for(uint8_t i = 0; i < 3; i++)
+        {
+            if(board->board[x][y + 1 + i] != to_check) return 0;
+        }
+        return to_check;
+    }
+    else if(checkConnectFourDirection(CF_UP, direction))
+    {
+        for(uint8_t i = 0; i < 3; i++)
+        {
+            if(board->board[x][y - 1 - i] != to_check) return 0;
+        }
+        return to_check;
+    }
 
     return 0;
 }
@@ -96,6 +169,18 @@ uint8_t detectWin(ConnectFourBoard* board)
         for(uint8_t j = 0; j < board->height; j++)
         {
             if(board->board[i][j] == 0) continue;
+            uint8_t result = checkWinDirection(board,i,j,CF_RIGHT);
+            if(result != 0) return result;
+            result = checkWinDirection(board,i,j,CF_LEFT);
+            if(result != 0) return result;
+            result = checkWinDirection(board,i,j,CF_UP);
+            if(result != 0) return result;
+            result = checkWinDirection(board,i,j,CF_DOWN);
+            if(result != 0) return result;
+            result = checkWinDirection(board,i,j,CF_RIGHT | CF_UP);
+            if(result != 0) return result;
+            result = checkWinDirection(board,i,j,CF_LEFT | CF_UP);
+            if(result != 0) return result;
         }
     }
     return 0;
@@ -103,10 +188,27 @@ uint8_t detectWin(ConnectFourBoard* board)
 
 uint8_t checkConnectFourDirection(uint8_t direction, uint8_t checkee)
 {
-    if(direction & checkee) return 1;
+    if((direction & checkee) == direction) return 1;
     return 0;
 }
 
+uint8_t getColumnHeight(ConnectFourBoard* board, uint8_t x)
+{
+    if(x >= board->width) return board->height;
+    for(uint8_t i = 0; i < board->height; i++)
+    {
+        if(board->board[x][i] == 0) return i;
+    }
+    return board->height;
+}
 
+uint8_t dropPiece(ConnectFourBoard* board, uint8_t x, uint8_t player)
+{
+    if(x >= board->width) return 0;
+    uint8_t height = getColumnHeight(board,x);
+    if(height >= board->height) return 0;
+    board->board[x][height] = player;
+    return 1;
+}
 
 

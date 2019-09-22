@@ -29,5 +29,7 @@ void drawBoard(ConnectFourBoard* board);
 uint8_t detectWin(ConnectFourBoard* board);
 uint8_t checkConnectFourDirection(uint8_t direction, uint8_t checkee);
 uint8_t checkWinDirection(ConnectFourBoard* board, uint8_t x, uint8_t y, uint8_t direction);
+uint8_t getColumnHeight(ConnectFourBoard* board, uint8_t x);
+uint8_t dropPiece(ConnectFourBoard* board, uint8_t x, uint8_t player);
 
 #endif // CONNECTFOUR_INCLUDED

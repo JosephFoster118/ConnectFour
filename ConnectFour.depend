@@ -8,8 +8,10 @@
 	<stdint.h>
 	<stdlib.h>
 
-1569123824 source:/home/joseph/Software/ConnectFour/main.c
+1569127308 source:/home/joseph/Software/ConnectFour/main.c
 	<stdio.h>
 	<stdlib.h>
+	<string.h>
+	<ctype.h>
 	"ConnectFour.h"
 

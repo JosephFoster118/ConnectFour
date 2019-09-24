@@ -20,9 +20,6 @@ int main()
 
     ConnectFourBoard* board = generateBoard();
     drawBoard(board);
-
-    dropPiece(board,0,1);
-    dropPiece(board,0,2);
     printf("Height is %d\n", getColumnHeight(board,0));
     char* input = (char*)malloc(sizeof(char)*256);
     size_t user_input_size = 256;

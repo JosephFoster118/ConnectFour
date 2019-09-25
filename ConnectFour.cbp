@@ -31,6 +31,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="AI.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="AI.h" />
 		<Unit filename="ConnectFour.c">
 			<Option compilerVar="CC" />
 		</Unit>

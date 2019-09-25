@@ -9,7 +9,7 @@ ConnectFourBoard* generateBoard()
     board->player_2_id = 'O';
 
 
-    board->board = malloc(sizeof(uint8_t*)*board->width);
+    board->board = (uint8_t**)malloc(sizeof(uint8_t*)*board->width);
 
     for(uint8_t i = 0; i < board->width; i++) board->board[i] = malloc(sizeof(uint8_t)*board->height);
 
@@ -20,8 +20,29 @@ ConnectFourBoard* generateBoard()
             board->board[i][j] = 0;
         }
     }
-
     return board;
+}
+
+ConnectFourBoard* cloneBoard(ConnectFourBoard* board)
+{
+    ConnectFourBoard* new_board = (ConnectFourBoard*)malloc(sizeof(ConnectFourBoard));
+    new_board->width = board->width;
+    new_board->height = board->height;
+    new_board->player_1_id = board->player_1_id;
+    new_board->player_2_id = board->player_2_id;
+
+    new_board->board = (uint8_t**)malloc(sizeof(uint8_t*)*new_board->width);
+
+    for(uint8_t i = 0; i < new_board->width; i++) new_board->board[i] = malloc(sizeof(uint8_t)*new_board->height);
+
+    for(uint8_t i = 0; i < new_board->width; i++)
+    {
+        for(uint8_t j = 0; j < new_board->height; j++)
+        {
+            new_board->board[i][j] = board->board[i][j];
+        }
+    }
+    return new_board;
 }
 
 void destroyBoard(ConnectFourBoard* board)

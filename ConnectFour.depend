@@ -1,17 +1,28 @@
 # depslib dependency file v1.0
-1569123901 source:/home/joseph/Software/ConnectFour/ConnectFour.c
+1569386999 source:/home/joseph/Software/ConnectFour/ConnectFour.c
 	"ConnectFour.h"
 
-1569123437 /home/joseph/Software/ConnectFour/ConnectFour.h
+1569386788 /home/joseph/Software/ConnectFour/ConnectFour.h
 	<stdio.h>
 	<string.h>
 	<stdint.h>
 	<stdlib.h>
 
-1569127308 source:/home/joseph/Software/ConnectFour/main.c
+1569386874 source:/home/joseph/Software/ConnectFour/main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
+	"ConnectFour.h"
+	"AI.h"
+
+1569386446 source:/home/joseph/Software/ConnectFour/AI.c
+	"AI.h"
+
+1569386435 /home/joseph/Software/ConnectFour/AI.h
+	<stdio.h>
+	<stdint.h>
+	<stdlib.h>
+	<limits.h>
 	"ConnectFour.h"
 

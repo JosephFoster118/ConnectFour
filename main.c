@@ -4,6 +4,7 @@
 #include <ctype.h>
 
 #include "ConnectFour.h"
+#include "AI.h"
 
 
 uint8_t isValidPlacement(const char* input)
@@ -16,33 +17,51 @@ uint8_t isValidPlacement(const char* input)
 
 int main()
 {
-    printf("Hello world!\n");
-
-    ConnectFourBoard* board = generateBoard();
-    drawBoard(board);
-    printf("Height is %d\n", getColumnHeight(board,0));
     char* input = (char*)malloc(sizeof(char)*256);
     size_t user_input_size = 256;
+
+
+
+    uint8_t human_player_number = 0;
+
+    while(!human_player_number)
+    {
+        printf("Are you player \"1\" or \"2\": ");
+        getline(&input, &user_input_size, stdin);
+        human_player_number = atoi(input);
+        if(human_player_number > 2) human_player_number = 0;
+    }
+
+    ConnectFourBoard* board = generateBoard();
+
+
     uint8_t current_player = 1;
     while(detectWin(board) == 0)
     {
-        //Every Turn
-        uint8_t success = 0;
-        do
+        if(current_player == human_player_number)
         {
-            drawBoard(board);
-            printf("Player %c input drop location:",(current_player == 1) ? board->player_1_id : board->player_2_id);
-            //Validate Input
+            //Every Turn
+            uint8_t success = 0;
             do
             {
-                getline(&input,&user_input_size,stdin);
-            }while(!isValidPlacement(input));
-            printf("I got %d!\n", atoi(input));
-            success = dropPiece(board,atoi(input), current_player);
-            if(!success) printf("Invalid Placement!\n");
+                drawBoard(board);
+                printf("Player %c input drop location:",(current_player == 1) ? board->player_1_id : board->player_2_id);
+                //Validate Input
+                do
+                {
+                    getline(&input,&user_input_size,stdin);
+                }while(!isValidPlacement(input));
+                printf("I got %d!\n", atoi(input));
+                success = dropPiece(board,atoi(input), current_player);
+                if(!success) printf("Invalid Placement!\n");
 
 
-        }while(!success);
+            }while(!success);
+        }
+        else
+        {
+            dropPiece(board, calculateMove(board,current_player,4),current_player);
+        }
         if(current_player == 1) current_player = 2;
         else current_player = 1;
 
@@ -52,6 +71,11 @@ int main()
     uint8_t result = detectWin(board);
     printf("The winner is player %c\n", (result == 1) ? board->player_1_id : board->player_2_id);
 
+    ConnectFourBoard* clone_board = cloneBoard(board);
+    drawBoard(clone_board);
+    destroyBoard(clone_board);
+    clone_board = NULL;
+
 
 
     free(input);
@@ -59,3 +83,19 @@ int main()
     board = NULL;
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
